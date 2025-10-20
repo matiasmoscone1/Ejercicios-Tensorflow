@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+    /* 
+
+	*******  Usar tidy o dispose para liberar espacio en memoria  ******* 
+
+        11. Concatenar tensores:
+            Crea dos tensores [1, 2] y [3, 4] y únelos con tf.concat().
+
+        12. Reshape:
+            Crea un tensor 1D con 6 valores y conviértelo a un tensor 2D de 2x3 usando reshape.
+
+        13. Filtro lógico:
+            Crea un tensor [1, 5, 2, 8, 3] y obtén solo los valores mayores a 3.
+
+        14. Reducción:
+            Calcula la media (mean) y la suma (sum) de un tensor [1, 2, 3, 4].
+
+        15. Broadcasting:
+            Suma un tensor [1, 2, 3] con otro [1] y observa cómo actúa el broadcasting.
+
+    */
+
+
+    /* EJERCICIO 11 */ 
+
+    const tensor_a = tf.tensor2d([[1, 2], [3, 4]]);
+    const tensor_b = tf.tensor2d([[5, 6], [7, 8]]);
+
+    tf.concat([tensor_a, tensor_b], 1).print();
+
+
+    /* EJERCICIO 12 */ 
+
+    const tensor_reshape = tf.tensor1d([0, 1, 2, 3, 4, 5]);
+
+    tensor_reshape.reshape([2, 3]).print();
+
+    /* EJERCICIO 13 */ 
+
+    const tensor_c = tf.tensor1d([1, 5, 2, 8, 3]);
+    
+    const newArray = Array.from(tensor_c.dataSync());
+    
+    let res = [];
+    newArray.forEach((num) => num >= 3 ? res.push(num) : null);
+
+    console.log(res);
+    //res.forEach((n) => console.log(n));
+
+    /* EJERCICIO 14 */
+
+    const tensor_d = tf.tensor1d([1, 2, 3, 4]);
+
+    //const tensor_f = tf.tensor2d([1, 2, 3, 4], [2,2]);
+
+    tensor_d.mean().print();
+    tensor_d.sum().print();
+
+    //tensor_f.mean().print();
+    //tensor_f.sum().print();
+
+    /* EJERCICIO 15 */
+
+   // Broadcasting:
+           // Suma un tensor [1, 2, 3] con otro [1] y observa cómo actúa el broadcasting.
+
+    const tensor_g = tf.tensor2d([[1, 2, 3], [4, 5, 6]]);
+    const tensor_h = tf.tensor1d([10]);
+    
+    //const tensor_h = tf.tensor1d([10, 10]); -> Error, no tiene la misma shape, ni el mismo
+    //numero de columnas
+
+    //const tensor_h = tf.tensor1d([10, 10, 10]); -> Si se puede hacer
+
+    const res_3 = tf.add(tensor_g, tensor_h);
+
+    tensor_g.print();
+
+    res_3.print();
+
+    </script>
+
+</body>
+</html>

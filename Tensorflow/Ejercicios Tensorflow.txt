@@ -1,0 +1,74 @@
+******************************* Sección 1: Tensores y operaciones *******************************
+
+Crear un tensor 1D:
+Crea un tensor de una sola dimensión con los números del 1 al 5 y muéstralo por consola.
+
+Tensor 2D:
+Crea un tensor de 2x2 con valores numéricos y obtén su forma (shape) con .shape.
+
+Suma de tensores:
+Crea dos tensores 1D con [1, 2, 3] y [4, 5, 6] y súmalos usando tf.add().
+
+Multiplicación escalar:
+Multiplica el tensor [1, 2, 3] por 3 usando tf.mul() o el operador equivalente.
+
+Producto punto:
+Calcula el producto punto entre [1, 2, 3] y [4, 5, 6] usando tf.dot().
+
+Operaciones encadenadas:
+Crea un tensor [2, 4, 6, 8], réstale 2 y luego divídelo por 2 (en una sola línea de código).
+
+Transformar tensores:
+Crea un tensor 2D de 3x2 y transpónlo (tf.transpose).
+
+Convertir tensor a array:
+Crea un tensor y conviértelo a un array JavaScript usando .array() o .dataSync().
+
+Tensor aleatorio:
+Genera un tensor de 3x3 con números aleatorios entre 0 y 1.
+
+Normalización básica:
+Crea un tensor [2, 4, 6, 8], calcula el valor máximo y mínimo, y normaliza los valores entre 0 y 1.
+
+
+
+
+************************** Sección 2: Operaciones un poco más avanzadas **************************
+
+
+	*******  Usar tidy o dispose para liberar espacio en memoria  ******* 
+
+Concatenar tensores:
+Crea dos tensores [1, 2] y [3, 4] y únelos con tf.concat().
+
+Reshape:
+Crea un tensor 1D con 6 valores y conviértelo a un tensor 2D de 2x3 usando reshape.
+
+Filtro lógico:
+Crea un tensor [1, 5, 2, 8, 3] y obtén solo los valores mayores a 3.
+
+Reducción:
+Calcula la media (mean) y la suma (sum) de un tensor [1, 2, 3, 4].
+
+Broadcasting:
+Suma un tensor [1, 2, 3] con otro [1] y observa cómo actúa el broadcasting.
+
+
+
+
+****************************** Sección 3: Introducción al modelado ******************************
+
+Modelo lineal simple:
+Crea un modelo secuencial (tf.sequential()) con una sola capa densa y una neurona.
+
+Entrenamiento básico:
+Entrena el modelo anterior con datos de entrada [1, 2, 3, 4] y salidas [1, 3, 5, 7] (una relación lineal simple y=2x−1).
+
+Predicción:
+Usa el modelo entrenado para predecir el resultado de x=5.
+
+Guardar y cargar modelo:
+Guarda el modelo entrenado en el navegador (model.save('localstorage://modelo-lineal')) y luego cárgalo nuevamente.
+
+Visualizar el entrenamiento:
+Agrega un callback con onEpochEnd para mostrar la pérdida (loss) en cada época del entrenamiento.

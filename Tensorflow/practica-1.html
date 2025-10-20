@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+<!-- 
+
+    1. Crear un tensor 1D:
+        Crea un tensor de una sola dimensión con los números del 1 al 5 y muéstralo por consola.
+
+    2. Tensor 2D:
+        Crea un tensor de 2x2 con valores numéricos y obtén su forma (shape) con .shape.
+
+    3. Suma de tensores:
+        Crea dos tensores 1D con [1, 2, 3] y [4, 5, 6] y súmalos usando tf.add().
+
+    4. Multiplicación escalar:
+        Multiplica el tensor [1, 2, 3] por 3 usando tf.mul() o el operador equivalente.
+
+    5. Producto punto:
+        Calcula el producto punto entre [1, 2, 3] y [4, 5, 6] usando tf.dot().
+
+    6. Operaciones encadenadas:
+        Crea un tensor [2, 4, 6, 8], réstale 2 y luego divídelo por 2 (en una sola línea de código).
+
+    7. Transformar tensores:
+        Crea un tensor 2D de 3x2 y transpónlo (tf.transpose).
+
+    8. Convertir tensor a array:
+        Crea un tensor y conviértelo a un array JavaScript usando .array() o .dataSync().
+
+    9. Tensor aleatorio:
+        Genera un tensor de 3x3 con números aleatorios entre 0 y 1.
+
+    10. Normalización básica:
+        Crea un tensor [2, 4, 6, 8], calcula el valor máximo y mínimo, y normaliza los valores entre 0 y 1.
+
+
+-->
+
+
+    <script>
+
+        /* EJERCICIO 1 */
+        const tensor_0 = tf.tensor1d([1, 2, 3 , 4 , 5]);
+        tensor_0.print();
+        //console.log(tensor_0);
+        
+    
+        /* EJERCICIO 2 */
+
+        const tensor_1_nested = tf.tensor2d([[1, 2, 3], [4, 5 , 6]]);
+
+        const tensor_1_flat = tf.tensor2d([1, 2, 3, 4, 5 , 6, 0, 0], [2, 4]);
+        console.log(tensor_1_flat.shape);
+
+
+        /* EJERCICIO 3 */
+
+        const tensor_a = tf.tensor1d([1, 2, 3]);
+        const tensor_b = tf.tensor1d([4, 5, 6]);
+
+        const sum = tf.add(tensor_a, tensor_b);
+        sum.print();
+        //console.log(sum);
+
+
+        /* EJERCICIO 4 */
+
+        const tensor_mul = tf.tensor1d([1, 2, 3]);
+        //const tensor_mul_prueba = tf.tensor1d([4, 5, 6, 7, 8]);
+
+        const mul = tf.mul(tensor_mul, 3);
+        mul.print();
+        //console.log(mul);
+
+
+        /* EJERCICIO 5 */
+        const tensor_c = tf.tensor1d([1, 2, 3]);
+        const tensor_d = tf.tensor2d([[4, 5], [7, 8], [9, 10]]);
+
+        const dot = tf.dot(tensor_c, tensor_d);
+        dot.print();
+
+
+        /* EJERCICIO 6 */
+
+        const tensor_3 = tf.tensor1d([2, 4, 6, 8]);
+
+        const res = tf.div(tf.sub(tensor_3, tf.scalar(2)), tf.scalar(2));
+        const res_2 = tensor_3.sub(2).div(2);
+
+        res.print();
+        res_2.print();
+
+        
+        /* EJERCICIO 7 */
+
+        const tensor_4 = tf.tensor2d([0, 1, 2, 3, 4, 5], [3, 2]);
+
+        tensor_4.transpose().print();
+
+
+        /* EJERCICIO 8 */
+
+        const tensor_convert = tf.tensor2d([0, 1, 2, 3, 4, 5], [3, 2]);
+    
+        let arr_tensor;
+        tensor_convert.array().then((res, e) => {
+            if(e){
+                console.log("Ocurrió un error...");
+            }else{  
+                arr_tensor = res.flat();
+                console.log(arr_tensor);
+            }
+        });
+
+        //console.log(tensor_convert.dataSync());
+        //const arr_tensor = Array.from(tensor_convert.dataSync());
+        const arr_tensor_2 = [...tensor_convert.dataSync()];
+        console.log(arr_tensor_2);
+
+
+        /* EJERCICIO 9 */
+        
+        const tensor_rand = tf.rand([3, 3, 2], () => Math.random(0, 1).toFixed(2));
+        
+        tensor_rand.print();
+
+        /* EJERCICIO 10 */
+        //Normalización básica:
+            //Crea un tensor [2, 4, 6, 8], calcula el valor máximo y mínimo, y normaliza 
+            //los valores entre 0 y 1.
+
+        const tensor_6 = tf.tensor1d([2, 4, 6, 8]);
+
+        const res_max = tensor_6.max();
+        const res_min = tensor_6.min();
+        
+        res_max.print();
+        res_min.print();
+
+        //const normalized = tensor_6.div(res_min, tensor_6.sub(res_max, res_min));
+
+        const normalized = tensor_6.sub(res_min).div(res_max.sub(res_min));
+
+
+        normalized.print();
+
+    </script>
+
+</body>
+</html>

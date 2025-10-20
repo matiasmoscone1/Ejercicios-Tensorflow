@@ -1,0 +1,78 @@
+********** Consejos para practicar **********
+
+Para niveles iniciales, usá datos sintéticos o pequeños datasets en arrays.
+
+Para niveles intermedio y avanzado, podés usar datasets reales de Kaggle o TensorFlow.js (tf.data).
+
+Siempre probá visualizar la pérdida y las predicciones para entender el comportamiento del modelo.
+
+
+*********************************** Nivel Inicial (1–6) ***********************************
+
+1. Regresión simple:
+    Entrenar un modelo para predecir y = 2x + 1 usando 4–5 puntos de datos.
+
+2. Regresión múltiple:
+    Predecir el precio de una casa usando metros² y cantidad de habitaciones.
+
+3. Clasificación binaria básica:
+    Entrenar un modelo para clasificar si un número es mayor o menor que 5.
+
+4. Clasificación con sigmoid:
+    Crear un modelo que prediga si un estudiante aprueba (nota ≥ 60) según horas de estudio.
+
+5. Predicción con varios features:
+    Entrenar un modelo para predecir la temperatura usando hora del día y humedad.
+
+6. Visualizar la pérdida por época:
+    Usar un callback para mostrar cómo cambia la pérdida durante el entrenamiento de cualquier modelo simple.
+
+
+********************************** Nivel Intermedio (7–13) **********************************
+
+7. Clasificación multiclase:
+    Clasificar flores del dataset Iris usando 4 características (sepalLength, sepalWidth, petalLength, petalWidth).
+
+8. Normalización de datos:
+    Entrenar un modelo para predecir precios de casas, normalizando los datos antes del entrenamiento.
+
+9. Red neuronal con capa oculta:
+    Entrenar un modelo con 1 capa oculta de 8 neuronas para predecir y = x².
+
+10. Clasificación de imágenes sencilla:
+    Entrenar un modelo para reconocer dígitos del 0 al 9 usando un pequeño dataset de imágenes 28x28.
+
+11. Regularización con Dropout:
+    Entrenar un modelo con overfitting intencional y luego aplicar Dropout para mejorar la generalización.
+
+12. Entrenamiento con batchSize pequeño:
+    Comparar cómo cambia la pérdida entrenando con batchSize=1 vs batchSize=4.
+
+13. Guardar y cargar modelo:
+    Entrenar un modelo y guardarlo en IndexedDB o en local filesystem, luego cargarlo y usarlo para predecir.
+
+
+********************************** Nivel Avanzado (14–20) **********************************
+
+14. Red profunda (Deep Neural Network):
+    Entrenar un modelo con 3 capas ocultas de diferentes tamaños para regresión no lineal.
+
+15. Predicción de series de tiempo:
+    Predecir la temperatura del día siguiente usando los últimos 7 días como input.
+
+16. Red neuronal recurrente (RNN) simple:
+    Usar tf.layers.simpleRNN para predecir una serie de números secuenciales (ej: Fibonacci o stock ficticio).
+
+17. Transfer learning con imágenes:
+    Usar un modelo preentrenado (MobileNet) para clasificar un pequeño dataset de imágenes de frutas.
+
+18. Autoencoder para compresión de datos:
+    Crear un autoencoder simple que reduzca la dimensión de un dataset de vectores y luego reconstruya los datos.
+
+19. Clasificación con embeddings:
+    Representar palabras con embeddings y entrenar un modelo que clasifique frases como positivas o negativas (sentiment analysis simple).
+
+20. Optimización avanzada:
+    Comparar distintos optimizadores (sgd, adam, rmsprop) y funciones de activación (relu, tanh, sigmoid) en un mismo problema de regresión o clasificación, evaluando cuál converge mejor.
+
+
