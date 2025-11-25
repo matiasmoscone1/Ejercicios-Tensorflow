@@ -109,7 +109,7 @@
             model.add(tf.layers.dense({units: 1, inputShape: [2]}));
 
             model.compile({
-                optimizer: tf.train.adam(0.01),
+                optimizer: tf.train.sgd(0.01),
                 loss: "meanSquaredError"
             });
             
@@ -167,7 +167,7 @@
 
             await model.fit(xs, ys, {
                 batchSize: 20,
-                epochs: 300,
+                epochs: 200,
                 callbacks: {
                     onEpochEnd: (epoch, logs) => {
                         console.log(`Epoca: ${epoch + 1} - Perdida: ${logs.loss}`);
@@ -188,7 +188,52 @@
         }
 
 
-        ejercicio_2();
+        //ejercicio_2();
+
+
+        /* Clasificación binaria básica:
+        Entrenar un modelo para clasificar si un número es mayor o menor que 5. */
+
+
+        const ejercicio_3 = async () => {
+        
+            const model = tf.sequential();
+
+            //layer 1
+            model.add(tf.layers.dense({units: 1, inputShape:[1]}));
+
+            model.compile({
+                optimizer: "sgd",
+                loss: "meanSquaredError"
+            });
+
+            const xs = tf.tensor2d([1, 2, 3, 4, 5, 6, 7, 8], [8, 1]);
+            const ys = tf.tensor2d([0, 0, 0, 0, 0, 1, 1, 1], [8, 1]);
+
+            
+            await model.fit(xs, ys, {
+                batchSize: 8,
+                epochs: 100,
+                callbacks: {
+                    onEpochEnd: (epoch, log) => {
+                        console.log(`Epoca: ${epoch + 1} - Perdida: ${log.loss}`)
+                    }
+                }
+            });
+
+            tf.tidy(() => {
+                const output = model.predict(tf.tensor2d([15], [1, 1]));
+
+                output.array().then((num) => {
+                    console.log(num[0][0]);
+                });
+            });
+
+        }
+
+        ejercicio_3();
+
+
 
 
 
