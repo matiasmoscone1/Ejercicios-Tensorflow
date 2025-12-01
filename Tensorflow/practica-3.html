@@ -278,12 +278,277 @@
     /*  Predicción con varios features:
             Entrenar un modelo para predecir la temperatura usando hora del día y humedad. */
 
+            /*
+        const ejercicio_5 = async () => {
+
+            const model = tf.sequential();
+
+            //layer 1
+            model.add(tf.layers.dense({units: 1, inputShape: [2]}));
+
+            model.compile({
+                optimizer: tf.train.sgd(0.001),
+                loss: "meanSquaredError"
+            });
+
+            const xs = tf.tensor2d([
+                [0/100, 45/100],
+                [5/100, 40/100],
+                [10/100, 55/100],
+                [13/100, 65/100],
+                [17/100, 75/100],
+                [20/100, 90/100]
+            ], [6, 2]);
+
+            const ys = tf.tensor2d([18/100, 12/100, 22/100, 30/100, 35/100, 32/100], [6, 1]);
+
+            await model.fit(xs, ys, {
+                batchSize: 6,
+                epochs: 100,
+                callbacks: {
+                    onEpochEnd: (epoch, log) => {
+                        console.log(`Epoch: ${epoch + 1} - Perdida: ${log.loss}`);
+                    }
+                }
+            });
+
+            tf.tidy(() => {
+                const output = model.predict(tf.tensor2d([14/100, 70/100], [1, 2]));
+
+                output.array().then((num) => {
+                    console.log(num[0][0] * 100);
+                });
+            });
+
+
+        }
+
+        ejercicio_5();*/
+
+        const ejercicio_temp = async () => {
+
+                // ------------------------------
+                // 1) Datos reales simulados
+                // ------------------------------
+                const datosX = [
+                    [3, 80],
+                    [6, 75],
+                    [9, 60],
+                    [12, 50],
+                    [15, 45],
+                    [18, 55],
+                    [21, 65]
+                ];
+
+                const datosY = [12, 15, 20, 27, 29, 24, 18];
+
+
+                // ------------------------------
+                // 2) Normalización
+                // ------------------------------
+                const normalizar = (arr) => {
+                    const min = Math.min(...arr);
+                    const max = Math.max(...arr);
+                    return {
+                        normalizados: arr.map(x => (x - min) / (max - min)),
+                        min,
+                        max
+                    };
+                };
+
+                const hora = datosX.map(v => v[0]);
+                const humedad = datosX.map(v => v[1]);
+
+                const normHora = normalizar(hora);
+                const normHum = normalizar(humedad);
+                const normTemp = normalizar(datosY);
+
+                const xs = tf.tensor2d(
+                    datosX.map((_, i) => [
+                        normHora.normalizados[i],
+                        normHum.normalizados[i]
+                    ])
+                );
+
+                const ys = tf.tensor2d(normTemp.normalizados, [datosY.length, 1]);
+
+
+                // ------------------------------
+                // 3) Modelo
+                // ------------------------------
+                const model = tf.sequential();
+
+                model.add(tf.layers.dense({
+                    units: 1,
+                    inputShape: [2]
+                }));
+
+                model.compile({
+                    optimizer: tf.train.adam(0.01),
+                    loss: "meanSquaredError"
+                });
+
+
+                // ------------------------------
+                // 4) Entrenamiento
+                // ------------------------------
+                await model.fit(xs, ys, {
+                    epochs: 400,
+                    batchSize: datosX.length,
+                    callbacks: {
+                        onEpochEnd: (epoch, log) => {
+                            if ((epoch + 1) % 50 === 0) {
+                                console.log(`Epoch ${epoch + 1} - Loss: ${log.loss}`);
+                            }
+                        }
+                    }
+                });
+
+
+                // ------------------------------
+                // 5) Predicción (ejemplo: 14hs con 55% humedad)
+                // ------------------------------
+
+                const entrada = [14, 40]; // Ejemplo realista
+
+                const entradaNorm = [
+                    (entrada[0] - normHora.min) / (normHora.max - normHora.min),
+                    (entrada[1] - normHum.min) / (normHum.max - normHum.min)
+                ];
+
+                const pred = model.predict(tf.tensor2d([entradaNorm], [1, 2]));
+                const valorNorm = (await pred.array())[0][0];
+
+                const temperaturaFinal =
+                    valorNorm * (normTemp.max - normTemp.min) + normTemp.min;
+
+                console.log("Predicción normalizada:", valorNorm);
+                console.log("Temperatura estimada:", temperaturaFinal.toFixed(2), "°C");
+
+                };
+
+            //ejercicio_temp();
+
+              
+/*  Clasificación multiclase:
+        Clasificar flores del dataset Iris usando 4 características 
+        (sepalLength, sepalWidth, petalLength, petalWidth). 
+        
+        Input p/ predecir: 
+        Categorias de flores: (Setosa, Versicolor o Virginica)
+        */
+
+        
+    const data =[
+        {
+        "sepalLength": 5.1,
+        "sepalWidth": 3.5,
+        "petalLength": 1.4,
+        "petalWidth": 0.2,
+        "species": "setosa"
+        },
+        {
+        "sepalLength": 4.9,
+        "sepalWidth": 3,
+        "petalLength": 1.4,
+        "petalWidth": 0.2,
+        "species": "setosa"
+        },
+        {
+        "sepalLength": 4.7,
+        "sepalWidth": 3.2,
+        "petalLength": 1.3,
+        "petalWidth": 0.2,
+        "species": "setosa"
+        },
+        {
+        "sepalLength": 4.6,
+        "sepalWidth": 3.1,
+        "petalLength": 1.5,
+        "petalWidth": 0.2,
+        "species": "setosa"
+        },
+        {
+        "sepalLength": 5.2,
+        "sepalWidth": 2.7,
+        "petalLength": 3.9,
+        "petalWidth": 1.4,
+        "species": "versicolor"
+        },
+        {
+        "sepalLength": 5,
+        "sepalWidth": 2,
+        "petalLength": 3.5,
+        "petalWidth": 1,
+        "species": "versicolor"
+        },
+        {
+        "sepalLength": 5.9,
+        "sepalWidth": 3,
+        "petalLength": 4.2,
+        "petalWidth": 1.5,
+        "species": "versicolor"
+        },
+        {
+        "sepalLength": 6,
+        "sepalWidth": 2.2,
+        "petalLength": 4,
+        "petalWidth": 1,
+        "species": "versicolor"
+        }, 
+        {"sepalLength": 6.4,
+        "sepalWidth": 3.1,
+        "petalLength": 5.5,
+        "petalWidth": 1.8,
+        "species": "virginica"
+        },
+        {
+        "sepalLength": 6,
+        "sepalWidth": 3,
+        "petalLength": 4.8,
+        "petalWidth": 1.8,
+        "species": "virginica"
+        },
+        {
+        "sepalLength": 6.9,
+        "sepalWidth": 3.1,
+        "petalLength": 5.4,
+        "petalWidth": 2.1,
+        "species": "virginica"
+        },
+        {
+        "sepalLength": 6.7,
+        "sepalWidth": 3.1,
+        "petalLength": 5.6,
+        "petalWidth": 2.4,
+        "species": "virginica"
+        },
+        {
+        "sepalLength": 6.9,
+        "sepalWidth": 3.1,
+        "petalLength": 5.1,
+        "petalWidth": 2.3,
+        "species": "virginica"
+        }
+    ];
+
+            
+    const flowerClassificationIris = () => {
+
+        const model = tf.sequential();
+
+        //layer 1
+        model.add(tf.layers.dense({units: 1, inputShape:[4], activation: "relu"}));
+
         
 
 
 
 
+    }
+    
 
+                
 
 
 
