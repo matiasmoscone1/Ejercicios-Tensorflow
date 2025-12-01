@@ -584,9 +584,9 @@
         [0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 0, 1],
         [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]], [15, 3]);
 
-        await model.fit(xs, {
-            epoch: 100,
-            batchSize: xs.length,
+        await model.fit(xs, ys, {
+            epochs: 200,
+            batchSize: 5,
             callbacks: {
                 onEpochEnd: (epoch, logs) => {
                     console.log(`Epoca: ${epoch + 1} - Perdida: ${logs.loss}`);
@@ -596,17 +596,21 @@
 
 
         tf.tidy(() => {
-            const output = model.predict(tf.tensor2d([[6.7, 3.1, 5.6, 2.1]]));
+            const output = model.predict(tf.tensor2d([[3.7, 5.1, 4.6, 0.3]]));
 
             output.array().then((num) => {
                 console.log(num[0][0]);
+                console.log(num);
+                const index = num[0].indexOf(Math.max(...num[0]));
+                const classes = ["setosa", "versicolor", "virginica"];
+                console.log("Predicción:", classes[index]);
             });
 
         });
 
     }
     
-
+    flowerClassificationIris();
                 
 
 
